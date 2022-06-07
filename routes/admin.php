@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use \App\Http\Controllers\Dashboard\{DashboardController , SettingsController};
+use \App\Http\Controllers\Dashboard\{DashboardController , SettingsController , LoginController};
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,15 +33,12 @@ Route::group(['namespace' => 'Dashboard' , 'middleware' => ['auth:admin' ] ,'pre
     });
 });
 
-Route::group(['namespace' => 'Dashboard' ,'prefix' => 'admin' , 'middleware'=>'guest:admin'] , function () {
+Route::group(['namespace' => 'Dashboard' ,'prefix' => 'admin' , 'middleware'=>'guest'] , function () {
 
-    Route::get('/login', [\App\Http\Controllers\Dashboard\LoginController::class, 'login'])->name('admin.login');
-    Route::get('/login', [\App\Http\Controllers\Dashboard\LoginController::class, 'login'])->name('user.login');
+    Route::get('/login', [LoginController::class, 'login'])->name('admin.login');
 
-    Route::post('/login', [\App\Http\Controllers\Dashboard\LoginController::class, 'postLogin'])->name('admin.post.login');
 });
+    Route::get('/login', [LoginController::class, 'login'])->name('user.login');
+    Route::post('/login', [LoginController::class, 'postLogin'])->name('admin.post.login');
 
-Route::get('/user' , function (){
-    return 'user';
-})->middleware('auth');
 });
